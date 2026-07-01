@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     if (authError || !user) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Não autorizado' },
         { status: 401 }
       )
     }
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     const accountId = profile?.account_id as string | undefined
     if (!accountId) {
       return NextResponse.json(
-        { error: 'Your profile is not linked to an account.' },
+        { error: 'Seu perfil não está vinculado a uma conta.' },
         { status: 403 },
       )
     }
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
 
     if (!conversation_id || !message_type) {
       return NextResponse.json(
-        { error: 'conversation_id and message_type are required' },
+        { error: 'conversation_id e message_type são obrigatórios' },
         { status: 400 }
       )
     }
@@ -93,28 +93,28 @@ export async function POST(request: Request) {
     const VALID_MESSAGE_TYPES = ['text', 'template', ...MEDIA_KINDS] as const
     if (!(VALID_MESSAGE_TYPES as readonly string[]).includes(message_type)) {
       return NextResponse.json(
-        { error: `Unsupported message_type "${message_type}"` },
+        { error: `Tipo de mensagem não suportado "${message_type}"` },
         { status: 400 }
       )
     }
 
     if (message_type === 'text' && !content_text) {
       return NextResponse.json(
-        { error: 'content_text is required for text messages' },
+        { error: 'content_text é obrigatório para mensagens de texto' },
         { status: 400 }
       )
     }
 
     if (message_type === 'template' && !template_name) {
       return NextResponse.json(
-        { error: 'template_name is required for template messages' },
+        { error: 'template_name é obrigatório para mensagens de template' },
         { status: 400 }
       )
     }
 
     if (isMediaKind && !media_url) {
       return NextResponse.json(
-        { error: `media_url is required for ${message_type} messages` },
+        { error: `media_url é obrigatório para mensagens do tipo ${message_type}` },
         { status: 400 }
       )
     }
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
       content_text.length > 1024
     ) {
       return NextResponse.json(
-        { error: 'Caption exceeds the 1024-character limit' },
+        { error: 'A legenda excede o limite de 1024 caracteres' },
         { status: 400 }
       )
     }
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
 
     if (convError || !conversation) {
       return NextResponse.json(
-        { error: 'Conversation not found' },
+        { error: 'Conversa não encontrada' },
         { status: 404 }
       )
     }
@@ -151,7 +151,7 @@ export async function POST(request: Request) {
     const contact = conversation.contact
     if (!contact?.phone) {
       return NextResponse.json(
-        { error: 'Contact phone number not found' },
+        { error: 'Número de telefone do contato não encontrado' },
         { status: 400 }
       )
     }
@@ -160,7 +160,7 @@ export async function POST(request: Request) {
     const sanitizedPhone = sanitizePhoneForMeta(contact.phone)
     if (!isValidE164(sanitizedPhone)) {
       return NextResponse.json(
-        { error: 'Invalid phone number format' },
+        { error: 'Formato de número de telefone inválido' },
         { status: 400 }
       )
     }
@@ -174,7 +174,7 @@ export async function POST(request: Request) {
 
     if (configError || !config) {
       return NextResponse.json(
-        { error: 'WhatsApp not configured. Please set up your WhatsApp integration first.' },
+        { error: 'WhatsApp não configurado. Configure sua integração com o WhatsApp primeiro.' },
         { status: 400 }
       )
     }
@@ -263,7 +263,7 @@ export async function POST(request: Request) {
         return NextResponse.json(
           {
             error:
-              'Template row is malformed locally — run "Sync from Meta" in Settings to repair it.',
+              'O registro do template está corrompido localmente — execute "Sincronizar do Meta" em Configurações para corrigi-lo.',
           },
           { status: 500 },
         )
@@ -342,7 +342,7 @@ export async function POST(request: Request) {
       const message = err instanceof Error ? err.message : 'Unknown Meta API error'
       console.error('Meta API send failed for all variants:', message)
       return NextResponse.json(
-        { error: `Meta API error: ${message}` },
+        { error: `Erro na API do Meta: ${message}` },
         { status: 502 }
       )
     }
@@ -383,7 +383,7 @@ export async function POST(request: Request) {
     if (msgError) {
       console.error('Error inserting sent message:', msgError)
       return NextResponse.json(
-        { error: `Message sent to Meta but failed to save to DB: ${msgError.message}` },
+        { error: `Mensagem enviada ao Meta, mas falhou ao salvar no banco de dados: ${msgError.message}` },
         { status: 500 }
       )
     }
@@ -437,7 +437,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error in WhatsApp send POST:', error)
     return NextResponse.json(
-      { error: 'Failed to send message' },
+      { error: 'Falha ao enviar mensagem' },
       { status: 500 }
     )
   }

@@ -75,12 +75,12 @@ async function sendViaMeta(input: SendInput): Promise<{ whatsapp_message_id: str
     .eq('account_id', input.accountId)
     .maybeSingle()
   if (contactErr || !contact?.phone) {
-    throw new Error('contact not found for this account')
+    throw new Error('contato não encontrado para esta conta')
   }
 
   const sanitized = sanitizePhoneForMeta(contact.phone)
   if (!isValidE164(sanitized)) {
-    throw new Error(`contact phone invalid: ${contact.phone}`)
+    throw new Error(`telefone do contato inválido: ${contact.phone}`)
   }
 
   const { data: config, error: configErr } = await db
@@ -89,7 +89,7 @@ async function sendViaMeta(input: SendInput): Promise<{ whatsapp_message_id: str
     .eq('account_id', input.accountId)
     .single()
   if (configErr || !config) {
-    throw new Error('WhatsApp not configured for this account')
+    throw new Error('WhatsApp não configurado para esta conta')
   }
 
   const accessToken = decrypt(config.access_token)
@@ -159,7 +159,7 @@ async function sendViaMeta(input: SendInput): Promise<{ whatsapp_message_id: str
   if (msgErr) {
     // Meta already has the message; record the DB error but don't pretend
     // the send failed. The engine wraps this in a log line.
-    throw new Error(`sent to Meta but DB insert failed: ${msgErr.message}`)
+    throw new Error(`enviado ao Meta mas falhou ao salvar no banco: ${msgErr.message}`)
   }
 
   await db

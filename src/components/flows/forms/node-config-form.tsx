@@ -71,7 +71,7 @@ export function NodeConfigForm({
           allNodes={allNodes}
           currentKey={node.node_key}
           onChange={(v) => onUpdateConfig({ next_node_key: v })}
-          label="Advances to"
+          label="Avança para"
         />
       );
 
@@ -79,7 +79,7 @@ export function NodeConfigForm({
       return (
         <>
           <TextRow
-            label="Text sent to the customer"
+            label="Texto enviado ao cliente"
             value={(cfg as { text?: string }).text ?? ""}
             onChange={(v) => onUpdateConfig({ text: v })}
           />
@@ -88,7 +88,7 @@ export function NodeConfigForm({
             allNodes={allNodes}
             currentKey={node.node_key}
             onChange={(v) => onUpdateConfig({ next_node_key: v })}
-            label="Advances to"
+            label="Avança para"
           />
         </>
       );
@@ -129,14 +129,14 @@ export function NodeConfigForm({
       return (
         <>
           <TextRow
-            label="Prompt sent to the customer"
+            label="Pergunta enviada ao cliente"
             value={(cfg as { prompt_text?: string }).prompt_text ?? ""}
             onChange={(v) => onUpdateConfig({ prompt_text: v })}
             rows={2}
           />
           <div>
             <label className="mb-1 block text-xs text-muted-foreground">
-              Variable key (stored in flow_runs.vars; alphanumeric + underscore)
+              Chave da variável (armazenada em flow_runs.vars; alfanumérico + underscore)
             </label>
             <Input
               value={(cfg as { var_key?: string }).var_key ?? ""}
@@ -145,11 +145,11 @@ export function NodeConfigForm({
                   var_key: e.target.value.replace(/[^a-zA-Z0-9_]/g, ""),
                 })
               }
-              placeholder="e.g. name, email, company"
+              placeholder="ex: nome, email, empresa"
               className="bg-muted font-mono text-xs"
             />
             <p className="mt-1 text-[10px] text-muted-foreground">
-              Interpolate in downstream prompts and handoff notes with{" "}
+              Use em prompts seguintes e notas de transferência com{" "}
               <code className="rounded bg-muted px-1">
                 {"{{vars."}
                 {(cfg as { var_key?: string }).var_key || "name"}
@@ -163,7 +163,7 @@ export function NodeConfigForm({
             allNodes={allNodes}
             currentKey={node.node_key}
             onChange={(v) => onUpdateConfig({ next_node_key: v })}
-            label="After capturing, advance to"
+            label="Após capturar, avança para"
           />
         </>
       );
@@ -191,7 +191,7 @@ export function NodeConfigForm({
     case "handoff":
       return (
         <TextRow
-          label="Internal note (for the agent picking up)"
+          label="Nota interna (para o atendente que assumir)"
           value={(cfg as { note?: string }).note ?? ""}
           onChange={(v) => onUpdateConfig({ note: v })}
           rows={2}
@@ -201,8 +201,8 @@ export function NodeConfigForm({
     case "end":
       return (
         <p className="text-xs text-muted-foreground">
-          Terminal node. When the runner reaches this node the run is marked
-          complete. No config needed.
+          Nó terminal. Quando a execução chega a este nó, ela é marcada como
+          concluída. Não precisa de configuração.
         </p>
       );
   }
@@ -246,7 +246,7 @@ function SendButtonsForm({
         ...buttons,
         {
           reply_id: `btn_${buttons.length + 1}`,
-          title: "Option",
+          title: "Opção",
           next_node_key: "",
         },
       ],
@@ -257,20 +257,20 @@ function SendButtonsForm({
   return (
     <>
       <TextRow
-        label="Body text"
+        label="Texto do corpo"
         value={cfg.text ?? ""}
         onChange={(v) => onUpdateConfig({ text: v })}
         rows={3}
       />
       <TextRow
-        label="Footer (optional, 60 chars)"
+        label="Rodapé (opcional, 60 caracteres)"
         value={cfg.footer_text ?? ""}
         onChange={(v) => onUpdateConfig({ footer_text: v })}
       />
       <div>
         <div className="mb-2 flex items-center justify-between">
           <label className="text-xs text-muted-foreground">
-            Buttons (1–3) — each one routes to a different next node
+            Botões (1–3) — cada um leva a um nó diferente
           </label>
         </div>
         <div className="flex flex-col gap-3">
@@ -299,7 +299,7 @@ function SendButtonsForm({
               <Input
                 value={b.title}
                 onChange={(e) => updateButton(i, { title: e.target.value })}
-                placeholder="Visible title (≤20 chars)"
+                placeholder="Título visível (≤20 caracteres)"
                 className="bg-muted"
                 maxLength={20}
               />
@@ -308,7 +308,7 @@ function SendButtonsForm({
                 nodes={allNodes}
                 excludeKey={currentKey}
                 onChange={(v) => updateButton(i, { next_node_key: v ?? "" })}
-                placeholder="Next node…"
+                placeholder="Próximo nó…"
               />
               <Button
                 variant="ghost"
@@ -329,7 +329,7 @@ function SendButtonsForm({
             className="mt-2"
           >
             <Plus className="h-3.5 w-3.5" />
-            Add button
+            Adicionar botão
           </Button>
         )}
       </div>
@@ -391,7 +391,7 @@ function SendListForm({
           rows: [
             {
               reply_id: `row_${totalRows + 1}`,
-              title: `Option ${totalRows + 1}`,
+              title: `Opção ${totalRows + 1}`,
               next_node_key: "",
             },
           ],
@@ -428,7 +428,7 @@ function SendListForm({
                 ...s.rows,
                 {
                   reply_id: `row_${totalRows + 1}`,
-                  title: `Option ${totalRows + 1}`,
+                  title: `Opção ${totalRows + 1}`,
                   next_node_key: "",
                 },
               ],
@@ -446,19 +446,19 @@ function SendListForm({
   return (
     <>
       <TextRow
-        label="Body text"
+        label="Texto do corpo"
         value={cfg.text ?? ""}
         onChange={(v) => onUpdateConfig({ text: v })}
         rows={3}
       />
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <TextRow
-          label="Tap-to-expand button label (≤20 chars)"
+          label="Rótulo do botão de expandir (≤20 caracteres)"
           value={cfg.button_label ?? ""}
           onChange={(v) => onUpdateConfig({ button_label: v })}
         />
         <TextRow
-          label="Footer (optional, 60 chars)"
+          label="Rodapé (opcional, 60 caracteres)"
           value={cfg.footer_text ?? ""}
           onChange={(v) => onUpdateConfig({ footer_text: v })}
         />
@@ -466,7 +466,7 @@ function SendListForm({
 
       <div className="mt-2">
         <label className="mb-2 block text-xs text-muted-foreground">
-          Rows (1–10 total across all sections)
+          Linhas (1–10 no total entre todas as seções)
         </label>
         {sections.map((section, sIdx) => (
           <div
@@ -479,7 +479,7 @@ function SendListForm({
                 onChange={(e) =>
                   updateSection(sIdx, { title: e.target.value })
                 }
-                placeholder={`Section ${sIdx + 1} title (optional)`}
+                placeholder={`Título da seção ${sIdx + 1} (opcional)`}
                 className="bg-muted text-xs"
               />
               {sections.length > 1 && (
@@ -488,7 +488,7 @@ function SendListForm({
                   size="sm"
                   onClick={() => removeSection(sIdx)}
                   className="shrink-0 text-red-400 hover:bg-red-500/10 hover:text-red-300"
-                  aria-label="Remove section"
+                  aria-label="Remover seção"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>
@@ -524,7 +524,7 @@ function SendListForm({
                   onChange={(e) =>
                     updateRow(sIdx, rIdx, { title: e.target.value })
                   }
-                  placeholder="Row title (≤24)"
+                  placeholder="Título da linha (≤24)"
                   className="bg-muted"
                   maxLength={24}
                 />
@@ -535,7 +535,7 @@ function SendListForm({
                   onChange={(v) =>
                     updateRow(sIdx, rIdx, { next_node_key: v ?? "" })
                   }
-                  placeholder="Next node…"
+                  placeholder="Próximo nó…"
                 />
                 <Button
                   variant="ghost"
@@ -555,7 +555,7 @@ function SendListForm({
                 className="mt-1"
               >
                 <Plus className="h-3.5 w-3.5" />
-                Add row
+                Adicionar linha
               </Button>
             )}
           </div>
@@ -566,7 +566,7 @@ function SendListForm({
         {sections.length < 10 && (
           <Button variant="outline" size="sm" onClick={addSection}>
             <Plus className="h-3.5 w-3.5" />
-            Add section
+            Adicionar seção
           </Button>
         )}
       </div>
